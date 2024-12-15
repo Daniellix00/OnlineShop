@@ -16,9 +16,9 @@ public class Product {
     private String nameProduct;
     private String description;
     private double price;
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "productsList")
     private List<Cart> carts;
-    @ManyToMany(mappedBy = "products")
-    private List<Order> orders;
+    @ManyToMany(mappedBy = "productsList")
+    private List<Orders> orders;
 
 }

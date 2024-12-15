@@ -3,6 +3,7 @@ package com.onlineshop.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +28,8 @@ public class Cart {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public List<Product> getProductsList() {
+        return productsList;
+    }
 }
