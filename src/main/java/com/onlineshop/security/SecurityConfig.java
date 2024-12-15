@@ -29,10 +29,11 @@ public class SecurityConfig  {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())  // Jeśli nie potrzebujesz CSRF
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/register").permitAll()  // Strony dostępne dla wszystkich
-                        .anyRequest().authenticated()  // Wymaganie logowania dla innych stron
+                        .requestMatchers("/admin/**").hasRole("ADMIN")  // Tylko ADMIN może odwiedzać stronę administracyjną
+                        .anyRequest().authenticated()  // Pozostałe strony dostępne po zalogowaniu
                 )
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()  // Strona logowania
@@ -46,17 +47,16 @@ public class SecurityConfig  {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();  // Autentykator
+        return configuration.getAuthenticationManager();
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService);  // Użycie UserService
-        authProvider.setPasswordEncoder(passwordEncoder);  // Użycie beana PasswordEncoder
+        authProvider.setUserDetailsService(userService);
+        authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
-
-
-
 }
+
+

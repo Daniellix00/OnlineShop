@@ -20,13 +20,18 @@ public class User {
     private String name;
     private String lastName;
     private String username;
+    private String email;
     private String password;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart activeCart;
     @OneToMany(mappedBy = "user")
     private List<Orders> orders;
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)  // Przechowywanie ról jako lista
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))  // Tabela pomocnicza dla ról
+    @Column(name = "role")  // Kolumna, która przechowuje rolę
     private List<String> roles = new ArrayList<>();
+
+
 
     public String getUsername() {
         return username;
